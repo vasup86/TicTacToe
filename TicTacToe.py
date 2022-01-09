@@ -61,40 +61,32 @@ def endSlide(win):
             pos = pygame.mouse.get_pos()
             posX = pos[0]
             posY= pos[1]
-            if((posX>=40 and posX<=140)and(posY>=210 and posY<=230)):
-                roundCount = 1
+            if((posX>=40 and posX<=140)and(posY>=210 and posY<=230)): #clicked play again button
+                roundCount = 1 #reset variables
                 winnerPlayer=0
                 board = [0,0,0,0,0,0,0,0,0] #reset the board
                 time.sleep(0.3) #sleep for 300ms, its to not confuse the system click for play again with turn
                 main()
-            elif((posX>=175 and posX<=225) and (posY>=210 and posY<=230)):
+            elif((posX>=175 and posX<=225) and (posY>=210 and posY<=230)):  #clicked quit button
                 pygame.display.quit()
-
-def getSquare(posX, posY):
+ 
+def getSquare(posX, posY): #return box number based on clicked x and y coordinates
     if((posX>= 20 and posX<=97) and (posY>=20 and posY<=97)): 
         return 0
-
     if((posX>= 105 and posX<=195) and (posY>=20 and posY<=97)):
         return 1
-    
     if((posX>= 205 and posX<=280) and (posY>=20 and posY<=97)):
         return 2
-    
     if((posX>= 20 and posX<=97) and (posY>=105 and posY<=196)):
         return 3
-    
     if((posX>= 105 and posX<=195) and (posY>=105 and posY<=196)):
         return 4
-    
     if((posX>= 205 and posX<=280) and (posY>=105 and posY<=196)):
         return 5
-    
     if((posX>= 20 and posX<=97) and (posY>=205 and posY<=280)):
         return 6
-    
     if((posX>= 105 and posX<=195) and (posY>=205 and posY<=280)):
         return 7
-    
     if((posX>= 205 and posX<=280) and (posY>=205 and posY<=280)):
         return 8
     
@@ -125,7 +117,7 @@ def checkBoard():
         if(board[2] == i and board[4] == i and board[6] == i): #forward slash
             winnerPlayer = i
             return False
-    return True
+    return True #if both false then still continue
 
 def round(player):
     global roundCount
@@ -160,6 +152,7 @@ def drawWindow():
     #blit, text or img to put on screen
     
     #line(window, color, start pos, end pos, width(optional))
+    #grid line
     pygame.draw.line(WIN, WHITE, (20,100), (280,100),8)
     pygame.draw.line(WIN, WHITE, (20,200), (280,200),8)
     pygame.draw.line(WIN, WHITE, (100,20), (100,280),8)
@@ -196,11 +189,11 @@ def main():
             break
     
     time.sleep(0.25)
-    if(winnerPlayer == 1):
+    if(winnerPlayer == 1): #if 'O' wins
         endSlide('Winner is Player 1')
-    elif(winnerPlayer == 2):
+    elif(winnerPlayer == 2): #if 'X' wins
         endSlide('Winner is Player 2')
-    elif (roundCount == 10):
+    elif (roundCount == 10): #if played 9 rounds then its a tie
         endSlide('tie')
 
     time.sleep(30)
