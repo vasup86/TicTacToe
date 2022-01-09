@@ -46,25 +46,29 @@ def endWindow(win):
     pygame.draw.rect(WIN,BLACK,(175,210,50,20)) #Quit box
     endText('Quit', 200,220,18)
     pygame.display.update()
+
 def endSlide(win):
     global roundCount
     global winnerPlayer
-    
+    global board
     while True:
-        endWindow(win)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: #if close the window, exit the loop
+                pygame.quit()
+            endWindow(win)
         if((pygame.mouse.get_pressed())[0]):
+            checkExit()
             pos = pygame.mouse.get_pos()
             posX = pos[0]
             posY= pos[1]
             if((posX>=40 and posX<=140)and(posY>=210 and posY<=230)):
                 roundCount = 1
                 winnerPlayer=0
+                board = [0,0,0,0,0,0,0,0,0] #reset the board
+                time.sleep(0.3) #sleep for 300ms, its to not confuse the system click for play again with turn
                 main()
             elif((posX>=175 and posX<=225) and (posY>=210 and posY<=230)):
                 pygame.display.quit()
-
-
-
 
 def getSquare(posX, posY):
     if((posX>= 20 and posX<=97) and (posY>=20 and posY<=97)): 
@@ -163,6 +167,10 @@ def drawWindow():
 
     pygame.display.update() #update the display
 
+def checkExit():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: #if close the window, exit the loop
+            pygame.quit()  #close the window
 
 def main():
     winner = True
@@ -171,12 +179,9 @@ def main():
     playerToggle=1
     while winner or (winner is None):   #none is due to FPS speed 
         clock.tick(FPS) #Run the while loop FPS amount of time.
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: #if close the window, exit the loop
-                winner = False
-
+        checkExit()
         if ((pygame.mouse.get_pressed())[0]): #checks if clicked, first index will be true
-            print('in ')
+            checkExit()
             if(playerToggle%2 != 0): #odd will be player 1, ('O')
                 winner = round(1)
             else: #even will be player 2, ('X')
@@ -189,9 +194,8 @@ def main():
 
         if(roundCount==10):
             break
-        print(roundCount)
-    print(roundCount)
     
+    time.sleep(0.25)
     if(winnerPlayer == 1):
         endSlide('Winner is Player 1')
     elif(winnerPlayer == 2):
@@ -203,6 +207,6 @@ def main():
     pygame.quit()  #close the window
 
 if __name__ == "__main__":  
-    roundCount = 1
+    roundCount=1
     winnerPlayer=0
     main()
